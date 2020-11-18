@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">KeepTask</string>
+
+
+    <string-array name="subjects">
+        <item>Select Subject</item>
+        <item>Datastructures</item>
+        <item>Machine Learning</item>
+        <item>DataScience</item>
+    </string-array>
+
+
+    <string-array name="credits">
+        <item>Select Credit</item>
+        <item>1.0</item>
+        <item>2.0</item>
+        <item>3.0</item>
+    </string-array>
 </resources>

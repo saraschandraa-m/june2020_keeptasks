@@ -8,10 +8,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 
@@ -29,6 +32,9 @@ public class AddTaskActivity extends AppCompatActivity {
     private ArrayList<Items> items;
 
     private DBHelper dbHelper;
+
+    String selectedSubject = "";
+    String selectedCredit = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +68,55 @@ public class AddTaskActivity extends AppCompatActivity {
         final EditText mEtItem = view1.findViewById(R.id.et_insert_item);
         final ImageView mIvDone = view1.findViewById(R.id.iv_insert_done);
 
+        Spinner mSpnSubjects = view1.findViewById(R.id.spn_subjects);
+        final Spinner mSpnCredits = view1.findViewById(R.id.spn_credits);
+
         mIvDone.setVisibility(View.GONE);
+
+        mSpnCredits.setVisibility(View.GONE);
+
+        final String[] subjectsArray = getResources().getStringArray(R.array.subjects);
+
+
+        ArrayAdapter<String> subjectAdapter = new ArrayAdapter<String>(AddTaskActivity.this, android.R.layout.simple_list_item_1, subjectsArray);
+        mSpnSubjects.setAdapter(subjectAdapter);
+
+        mSpnSubjects.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if (position > 0) {
+                    mSpnCredits.setVisibility(View.VISIBLE);
+
+                    selectedSubject = subjectsArray[position];
+                    String[] creditsArray = getResources().getStringArray(R.array.credits);
+
+                    ArrayAdapter<String> creditsAdapter = new ArrayAdapter<String>(AddTaskActivity.this, android.R.layout.simple_list_item_1, creditsArray);
+
+                    mSpnCredits.setAdapter(creditsAdapter);
+                } else {
+                    mSpnCredits.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        mSpnCredits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i > 0) {
+                    mIvDone.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
         mEtItem.addTextChangedListener(new TextWatcher() {
